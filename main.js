@@ -1770,6 +1770,8 @@ let inequalityPanelActivate = function() {
 
 let metaPanelActivate = function () {
     let downloadJSONbutton = document.getElementById("download-json")
+    let saveHashButton = document.getElementById("save-hash-sum")
+
     let writeFile = function(name, value) {
         let download = document.createElement("a");
         download.href = "data:text/plain;content-disposition=attachment;filename=file," + value;
@@ -1780,12 +1782,16 @@ let metaPanelActivate = function () {
         document.body.removeChild(download);
     }
     
+    saveHashButton.onclick = function() {
+        matrix.data.solvingHashSum = getHashSum(matrix.data.values)
+    }
+
     downloadJSONbutton.onclick = function() {
         let upInfoNumber = document.getElementById("up-info-number")
         let dataName = upInfoNumber.value.split('')
         dataName.shift()
         matrix.data.name = dataName.join('')
-        writeFile("data.js", "let data = '" + JSON.stringify(matrix.data)+ "'");
+        writeFile("data.js", "export let data = '" + JSON.stringify(matrix.data)+ "'");
     }
 }
 
@@ -1811,10 +1817,3 @@ chainPanelActivate()
 blockOutlinePanelActivate()
 inequalityPanelActivate()
 metaPanelActivate()
-
-/* let bbutton = document.getElementById("generation-button")
-// Это позволяет отобразить цифры на поле корректным шрифтом
-setTimeout( function() {
-    bbutton.click()
-    //matrix.elem.click()
-}, 500) */
